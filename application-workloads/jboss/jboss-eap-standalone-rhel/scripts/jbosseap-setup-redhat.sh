@@ -41,6 +41,7 @@ RHSM_PASSWORD=${12}
 RHEL_OS_LICENSE_TYPE=${13}
 RHSM_POOL=${14}
 IP_ADDR=$(hostname -I)
+JAVA_VERSION=${16}
 
 echo "JBoss EAP admin user : " ${JBOSS_EAP_USER} | adddate >> jbosseap.install.log
 echo "Initial JBoss EAP setup" | adddate >> jbosseap.install.log
@@ -55,6 +56,16 @@ then
     echo "Attaching Pool ID for RHEL OS" | adddate >> jbosseap.install.log
     echo "subscription-manager attach --pool=RHEL_POOL" | adddate >> jbosseap.install.log
     subscription-manager attach --pool=${15} >> jbosseap.install.log 2>&1
+fi
+
+# Install JAVA
+if [ $JAVA_VERSION == "JAVA 8" ]
+then
+    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
+    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
+else
+    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
+    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
 fi
 
 # Install JBoss EAP 7.4
