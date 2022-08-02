@@ -58,16 +58,6 @@ then
     subscription-manager attach --pool=${15} >> jbosseap.install.log 2>&1
 fi
 
-# Install JAVA
-if [ $JAVA_VERSION == "JAVA 8" ]
-then
-    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
-    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
-else
-    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
-    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
-fi
-
 # Install JBoss EAP 7.4
 echo "subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms" | adddate >> jbosseap.install.log
 subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms >> jbosseap.install.log 2>&1
@@ -82,6 +72,16 @@ echo "sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config" 
 sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config | adddate >> jbosseap.install.log 2>&1
 echo "echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config" | adddate >> jbosseap.install.log
 echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config | adddate >> jbosseap.install.log 2>&1
+
+# Install JAVA
+if [ $JAVA_VERSION == "JAVA 8" ]
+then
+    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
+    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
+else
+    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
+    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
+fi
 
 echo "systemctl restart sshd" | adddate >> jbosseap.install.log
 systemctl restart sshd | adddate >> jbosseap.install.log 2>&1
