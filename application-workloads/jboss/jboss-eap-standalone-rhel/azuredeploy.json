@@ -74,6 +74,13 @@
       },
       "defaultValue": ""
     },
+    "javaVersion": {
+      "type": "string",
+      "allowedValues": [
+        "JAVA 8",
+        "JAVA 11"
+      ],
+    },
     "_artifactsLocation": {
       "type": "string",
       "metadata": {
@@ -305,7 +312,7 @@
           ]
         },
         "protectedSettings": {
-          "commandToExecute": "[format('sh jbosseap-setup-redhat.sh {0} {1} ''{2}'' {3} ''{4}'' {5} {6} {7}', variables('scriptArgs'), parameters('jbossEAPUserName'), parameters('jbossEAPPassword'), parameters('rhsmUserName'), parameters('rhsmPassword'), parameters('rhelOSLicenseType'), parameters('rhsmPoolEAP'), parameters('rhsmPoolRHEL'))]"
+          "commandToExecute": "[format('sh jbosseap-setup-redhat.sh {0} {1} ''{2}'' {3} ''{4}'' {5} {6} {7}', variables('scriptArgs'), parameters('jbossEAPUserName'), parameters('jbossEAPPassword'), parameters('rhsmUserName'), parameters('rhsmPassword'), parameters('rhelOSLicenseType'), parameters('rhsmPoolEAP'), parameters('rhsmPoolRHEL'), parameters('javaVersion'))]"
         }
       }
     }
