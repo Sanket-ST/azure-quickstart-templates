@@ -58,7 +58,7 @@ subscription-manager register --username $RHSM_USER --password $RHSM_PASSWORD >>
 flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! Red Hat Subscription Manager Registration Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
 
 # Install JAVA
-if [ $JAVA_VERSION == "JAVA 8" ]
+if [ $JAVA_VERSION == "JAVA_8" ]
 then
     echo "Installing JAVA 8" | adddate >> jbosseap.install.log
     sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
