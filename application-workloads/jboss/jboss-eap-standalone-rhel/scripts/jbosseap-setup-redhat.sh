@@ -61,9 +61,11 @@ flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! Red Hat Subscription Manager Reg
 if [ $JAVA_VERSION == "JAVA_8" ]
 then
     echo "Installing JAVA 8" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
 else
     echo "Installing JAVA 11" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
 fi
 
