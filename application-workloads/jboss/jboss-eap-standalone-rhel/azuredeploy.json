@@ -76,6 +76,7 @@
     },
     "javaVersion": {
       "type": "string",
+      "defaultValue": "JAVA 8",
       "allowedValues": [
         "JAVA 8",
         "JAVA 11"
