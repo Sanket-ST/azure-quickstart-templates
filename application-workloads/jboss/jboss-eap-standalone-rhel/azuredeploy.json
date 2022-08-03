@@ -76,10 +76,10 @@
     },
     "javaVersion": {
       "type": "string",
-      "defaultValue": "JAVA 8",
+      "defaultValue": "JAVA_8",
       "allowedValues": [
-        "JAVA 8",
-        "JAVA 11"
+        "JAVA_8",
+        "JAVA_11"
       ]
     },
     "_artifactsLocation": {
