@@ -44,6 +44,14 @@ IP_ADDR=$(hostname -I)
 JAVA_VERSION=${16}
 
 echo "JBoss EAP admin user : " ${JBOSS_EAP_USER} | adddate >> jbosseap.install.log
+echo "JBoss EAP admin password : " ${JBOSS_EAP_PASSWORD} | adddate >> jbosseap.install.log
+echo "RHSM username : " ${RHSM_USER} | adddate >> jbosseap.install.log
+echo "RHSM password : " ${RHSM_PASSWORD} | adddate >> jbosseap.install.log
+echo "RHEL OS License type : " ${RHEL_OS_LICENSE_TYPE} | adddate >> jbosseap.install.log
+echo "RHSM pool Id : " ${RHSM_POOL} | adddate >> jbosseap.install.log
+echo "JAVA VERSION : " ${JAVA_VERSION} | adddate >> jbosseap.install.log
+
+echo "JBoss EAP admin user : " ${JBOSS_EAP_USER} | adddate >> jbosseap.install.log
 echo "Initial JBoss EAP setup" | adddate >> jbosseap.install.log
 echo "subscription-manager register --username RHSM_USER --password RHSM_PASSWORD" | adddate >> jbosseap.install.log
 subscription-manager register --username $RHSM_USER --password $RHSM_PASSWORD >> jbosseap.install.log 2>&1
