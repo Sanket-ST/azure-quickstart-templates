@@ -80,7 +80,7 @@
       "allowedValues": [
         "JAVA 8",
         "JAVA 11"
-      ],
+      ]
     },
     "_artifactsLocation": {
       "type": "string",
