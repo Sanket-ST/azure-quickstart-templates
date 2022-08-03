@@ -82,6 +82,14 @@
       },
       "defaultValue": ""
     },
+    "javaVersion": {
+      "type": "string",
+      "defaultValue": "JAVA_8",
+      "allowedValues": [
+        "JAVA_8",
+        "JAVA_11"
+      ]
+    },
     "_artifactsLocation": {
       "type": "string",
       "metadata": {
@@ -337,7 +345,7 @@
                     ]
                   },
                   "protectedSettings": {
-                    "commandToExecute": "[format('sh jbosseap-setup-redhat.sh {0} {1} ''{2}'' {3} ''{4}'' {5} {6} {7} {8} {9} {10}', variables('scriptArgs'), parameters('jbossEAPUserName'), parameters('jbossEAPPassword'), parameters('rhsmUserName'), parameters('rhsmPassword'), parameters('rhelOSLicenseType'), parameters('rhsmPoolEAP'), variables('storageAccountName'), variables('containerName'), base64(listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2021-02-01').keys[0].value), parameters('rhsmPoolRHEL'))]"
+                    "commandToExecute": "[format('sh jbosseap-setup-redhat.sh {0} {1} ''{2}'' {3} ''{4}'' {5} {6} {7} {8} {9} {10} {11}', variables('scriptArgs'), parameters('jbossEAPUserName'), parameters('jbossEAPPassword'), parameters('rhsmUserName'), parameters('rhsmPassword'), parameters('rhelOSLicenseType'), parameters('rhsmPoolEAP'), variables('storageAccountName'), variables('containerName'), base64(listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2021-02-01').keys[0].value), parameters('javaVersion'), parameters('rhsmPoolRHEL'))]"
                   }
                 }
               }
