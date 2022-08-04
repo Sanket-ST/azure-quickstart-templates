@@ -148,7 +148,7 @@
         ]
       }
     },
-    "imageSku": "[if(equals(parameters('rhelOSLicenseType'), 'PAYG'), '8_4', 'rhel-lvm84')]",
+    "imageSku": "[if(equals(parameters('rhelOSLicenseType'), 'PAYG'), '8_6', 'rhel-lvm86')]",
     "offerMap": {
       "BYOS": "rhel-byos",
       "PAYG": "rhel"
