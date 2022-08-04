@@ -56,6 +56,15 @@ echo "Initial JBoss EAP setup" | adddate >> jbosseap.install.log
 echo "subscription-manager register --username RHSM_USER --password RHSM_PASSWORD" | adddate >> jbosseap.install.log
 subscription-manager register --username $RHSM_USER --password $RHSM_PASSWORD >> jbosseap.install.log 2>&1
 flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! Red Hat Subscription Manager Registration Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
+echo "subscription-manager attach --pool=EAP_POOL" | adddate >> jbosseap.install.log
+subscription-manager attach --pool=${RHSM_POOL} >> jbosseap.install.log 2>&1
+flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! Pool Attach for JBoss EAP Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
+if [ $RHEL_OS_LICENSE_TYPE == "BYOS" ]
+then
+    echo "Attaching Pool ID for RHEL OS" | adddate >> jbosseap.install.log
+    echo "subscription-manager attach --pool=RHEL_POOL" | adddate >> jbosseap.install.log
+    subscription-manager attach --pool=${16} >> jbosseap.install.log 2>&1
+fi
 
 # Install JAVA
 if [ $JAVA_VERSION == "JAVA_8" ]
@@ -72,16 +81,6 @@ else
     echo "Installing JAVA 17" | adddate >> jbosseap.install.log
     echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
-fi
-
-echo "subscription-manager attach --pool=EAP_POOL" | adddate >> jbosseap.install.log
-subscription-manager attach --pool=${RHSM_POOL} >> jbosseap.install.log 2>&1
-flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! Pool Attach for JBoss EAP Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
-if [ $RHEL_OS_LICENSE_TYPE == "BYOS" ]
-then
-    echo "Attaching Pool ID for RHEL OS" | adddate >> jbosseap.install.log
-    echo "subscription-manager attach --pool=RHEL_POOL" | adddate >> jbosseap.install.log
-    subscription-manager attach --pool=${16} >> jbosseap.install.log 2>&1
 fi
 
 # Install JBoss EAP 7.4
