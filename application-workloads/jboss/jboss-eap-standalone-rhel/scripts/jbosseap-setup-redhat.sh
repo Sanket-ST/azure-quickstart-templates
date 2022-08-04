@@ -63,10 +63,15 @@ then
     echo "Installing JAVA 8" | adddate >> jbosseap.install.log
     echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
-else
+elif [ $JAVA_VERSION == "JAVA_11" ]
+then
     echo "Installing JAVA 11" | adddate >> jbosseap.install.log
     echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
+else
+    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
 fi
 
 echo "subscription-manager attach --pool=EAP_POOL" | adddate >> jbosseap.install.log
