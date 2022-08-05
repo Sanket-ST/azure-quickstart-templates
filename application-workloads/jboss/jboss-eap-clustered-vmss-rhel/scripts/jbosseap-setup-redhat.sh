@@ -70,19 +70,6 @@ echo "Initial JBoss EAP setup" | adddate >> jbosseap.install.log
 echo "subscription-manager register --username RHSM_USER --password RHSM_PASSWORD" | adddate >> jbosseap.install.log
 subscription-manager register --username $RHSM_USER --password $RHSM_PASSWORD >> jbosseap.install.log 2>&1
 flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! Red Hat Manager Registration Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
-
-# Install JAVA
-if [ $JAVA_VERSION == "JAVA_8" ]
-then
-    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
-else
-    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
-fi
-
 echo "subscription-manager attach --pool=EAP_POOL" | adddate >> jbosseap.install.log
 subscription-manager attach --pool=${RHSM_POOL} >> jbosseap.install.log 2>&1
 flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! Pool Attach for JBoss EAP Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
@@ -93,6 +80,23 @@ then
     subscription-manager attach --pool=${19} >> jbosseap.install.log 2>&1
 fi
 echo "Subscribing the system to get access to JBoss EAP repos" | adddate >> jbosseap.install.log
+
+# Install JAVA
+if [ $JAVA_VERSION == "JAVA_8" ]
+then
+    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
+  elif [ $JAVA_VERSION == "JAVA_11" ]
+then
+    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
+else
+    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
+fi
 
 echo "Install openjdk, wget, git, unzip, vim" | adddate >> jbosseap.install.log
 echo "sudo yum install wget unzip vim git -y" | adddate >> jbosseap.install.log
