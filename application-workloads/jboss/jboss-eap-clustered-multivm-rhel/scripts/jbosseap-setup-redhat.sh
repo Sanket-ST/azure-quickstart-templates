@@ -81,22 +81,6 @@ then
 fi
 echo "Subscribing the system to get access to JBoss EAP repos" | adddate >> jbosseap.install.log
 
-# Install JAVA
-if [ $JAVA_VERSION == "JAVA_8" ]
-then
-    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
-  elif [ $JAVA_VERSION == "JAVA_11" ]
-then
-    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
-else
-    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
-fi
 
 echo "Install openjdk, wget, git, unzip, vim" | adddate >> jbosseap.install.log
 echo "sudo yum install wget unzip vim git -y" | adddate >> jbosseap.install.log
@@ -168,6 +152,23 @@ flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! JBoss EAP management user config
 
 # Seeing a race condition timing error so sleep to delay
 sleep 20
+
+# Install JAVA
+if [ $JAVA_VERSION == "JAVA_8" ]
+then
+    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
+  elif [ $JAVA_VERSION == "JAVA_11" ]
+then
+    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
+else
+    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
+fi
 
 echo "Red Hat JBoss EAP Cluster Intallation End " | adddate >> jbosseap.install.log
 /bin/date +%H:%M:%S  >> jbosseap.install.log
