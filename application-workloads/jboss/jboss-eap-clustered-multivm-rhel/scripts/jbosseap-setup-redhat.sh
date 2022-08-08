@@ -123,7 +123,7 @@ sed -i 's/jboss.bind.address.private:127.0.0.1/jboss.bind.address.private:0.0.0.
 echo "Start JBoss server" | adddate >> jbosseap.install.log
 echo "$EAP_HOME/wildfly/bin/standalone.sh -bprivate $IP_ADDR -b $IP_ADDR -bmanagement $IP_ADDR --server-config=standalone-azure-ha.xml -Djboss.jgroups.azure_ping.storage_account_name=$STORAGE_ACCOUNT_NAME -Djboss.jgroups.azure_ping.storage_access_key=STORAGE_ACCESS_KEY -Djboss.jgroups.azure_ping.container=$CONTAINER_NAME -Djava.net.preferIPv4Stack=true &" | adddate >> jbosseap.install.log
 $EAP_HOME/wildfly/bin/standalone.sh -bprivate $IP_ADDR -b $IP_ADDR -bmanagement $IP_ADDR --server-config=standalone-azure-ha.xml -Djboss.jgroups.azure_ping.storage_account_name=$STORAGE_ACCOUNT_NAME -Djboss.jgroups.azure_ping.storage_access_key=$STORAGE_ACCESS_KEY -Djboss.jgroups.azure_ping.container=$CONTAINER_NAME -Djava.net.preferIPv4Stack=true | adddate >> jbosseap.install.log 2>&1 &
-sleep 20
+sleep 90
 
 # Install JAVA
 if [ $JAVA_VERSION == "JAVA_8" ]
@@ -150,6 +150,7 @@ else
     echo "java -version" | adddate >> jbosseap.install.log
     java -version
 fi
+sleep 90
 
 echo "export EAP_HOME="/opt/rh/eap7/root/usr/share"" >> /bin/jbossservice.sh
 echo "$EAP_HOME/wildfly/bin/standalone.sh -bprivate $IP_ADDR -b $IP_ADDR -bmanagement $IP_ADDR --server-config=standalone-azure-ha.xml -Djboss.jgroups.azure_ping.storage_account_name=$STORAGE_ACCOUNT_NAME -Djboss.jgroups.azure_ping.storage_access_key=$STORAGE_ACCESS_KEY -Djboss.jgroups.azure_ping.container=$CONTAINER_NAME -Djava.net.preferIPv4Stack=true &" >> /bin/jbossservice.sh
@@ -176,7 +177,7 @@ $EAP_HOME/wildfly/bin/add-user.sh  -u $JBOSS_EAP_USER -p $JBOSS_EAP_PASSWORD -g 
 flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! JBoss EAP management user configuration Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
 
 # Seeing a race condition timing error so sleep to delay
-sleep 20
+sleep 90
 
 echo "Red Hat JBoss EAP Cluster Intallation End " | adddate >> jbosseap.install.log
 /bin/date +%H:%M:%S  >> jbosseap.install.log
