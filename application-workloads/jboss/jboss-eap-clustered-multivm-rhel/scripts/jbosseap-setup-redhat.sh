@@ -81,10 +81,37 @@ then
 fi
 echo "Subscribing the system to get access to JBoss EAP repos" | adddate >> jbosseap.install.log
 
-echo "Install openjdk, wget, git, unzip, vim" | adddate >> jbosseap.install.log
+echo "Install wget, git, unzip, vim" | adddate >> jbosseap.install.log
 echo "sudo yum install wget unzip vim git -y" | adddate >> jbosseap.install.log
 sudo yum install wget unzip vim git -y | adddate >> jbosseap.install.log 2>&1
 echo "Subscribing the system to get access to JBoss EAP 7.4 repos" | adddate >> jbosseap.install.log
+
+# Install JAVA
+if [ $JAVA_VERSION == "JAVA_8" ]
+then
+    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
+    echo "java -version" | adddate >> jbosseap.install.log
+    java -version
+  elif [ $JAVA_VERSION == "JAVA_11" ]
+then
+    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
+    echo "java -version" | adddate >> jbosseap.install.log
+    java -version
+else
+    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 17" | adddate >> jbosseap.install.log
+    echo "java -version" | adddate >> jbosseap.install.log
+    java -version
+fi
+sleep 90
 
 # Install JBoss EAP 7.4
 echo "subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms" | adddate >> jbosseap.install.log
@@ -123,33 +150,6 @@ sed -i 's/jboss.bind.address.private:127.0.0.1/jboss.bind.address.private:0.0.0.
 echo "Start JBoss server" | adddate >> jbosseap.install.log
 echo "$EAP_HOME/wildfly/bin/standalone.sh -bprivate $IP_ADDR -b $IP_ADDR -bmanagement $IP_ADDR --server-config=standalone-azure-ha.xml -Djboss.jgroups.azure_ping.storage_account_name=$STORAGE_ACCOUNT_NAME -Djboss.jgroups.azure_ping.storage_access_key=STORAGE_ACCESS_KEY -Djboss.jgroups.azure_ping.container=$CONTAINER_NAME -Djava.net.preferIPv4Stack=true &" | adddate >> jbosseap.install.log
 $EAP_HOME/wildfly/bin/standalone.sh -bprivate $IP_ADDR -b $IP_ADDR -bmanagement $IP_ADDR --server-config=standalone-azure-ha.xml -Djboss.jgroups.azure_ping.storage_account_name=$STORAGE_ACCOUNT_NAME -Djboss.jgroups.azure_ping.storage_access_key=$STORAGE_ACCESS_KEY -Djboss.jgroups.azure_ping.container=$CONTAINER_NAME -Djava.net.preferIPv4Stack=true | adddate >> jbosseap.install.log 2>&1 &
-sleep 90
-
-# Install JAVA
-if [ $JAVA_VERSION == "JAVA_8" ]
-then
-    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
-    echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
-    echo "java -version" | adddate >> jbosseap.install.log
-    java -version
-  elif [ $JAVA_VERSION == "JAVA_11" ]
-then
-    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
-    echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
-    echo "java -version" | adddate >> jbosseap.install.log
-    java -version
-else
-    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
-    echo "Successfully installed JAVA 17" | adddate >> jbosseap.install.log
-    echo "java -version" | adddate >> jbosseap.install.log
-    java -version
-fi
 sleep 90
 
 echo "export EAP_HOME="/opt/rh/eap7/root/usr/share"" >> /bin/jbossservice.sh
