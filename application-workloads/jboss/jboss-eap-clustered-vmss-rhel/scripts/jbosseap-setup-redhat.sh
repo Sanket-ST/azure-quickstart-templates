@@ -98,7 +98,7 @@ else
     sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
 fi
 
-echo "Install openjdk, wget, git, unzip, vim" | adddate >> jbosseap.install.log
+echo "Install wget, git, unzip, vim" | adddate >> jbosseap.install.log
 echo "sudo yum install wget unzip vim git -y" | adddate >> jbosseap.install.log
 sudo yum install wget unzip vim git -y | adddate >> jbosseap.install.log 2>&1
 echo "Subscribing the system to get access to JBoss EAP 7.4 repos" | adddate >> jbosseap.install.log
