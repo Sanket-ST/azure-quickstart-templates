@@ -122,13 +122,6 @@ echo "yum groupinstall -y jboss-eap7" | adddate >> jbosseap.install.log
 yum groupinstall -y jboss-eap7 >> jbosseap.install.log 2>&1
 flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! JBoss EAP installation Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
 
-echo "cd /opt/rh/eap7/root/usr/share/wildfly" | adddate >> jbosseap.install.log
-cd /opt/rh/eap7/root/usr/share/wildfly >> jbosseap.install.log
-echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
-bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli >> jbosseap.install.log
-echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli" | adddate >> jbosseap.install.log
-bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli >> jbosseap.install.log
-
 echo "sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config" | adddate >> jbosseap.install.log
 sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config | adddate >> jbosseap.install.log 2>&1
 echo "echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config" | adddate >> jbosseap.install.log
@@ -140,6 +133,11 @@ systemctl restart sshd | adddate >> jbosseap.install.log 2>&1
 echo "Copy the standalone-azure-ha.xml from EAP_HOME/doc/wildfly/examples/configs folder to EAP_HOME/wildfly/standalone/configuration folder" | adddate >> jbosseap.install.log
 echo "cp $EAP_HOME/doc/wildfly/examples/configs/standalone-azure-ha.xml $EAP_HOME/wildfly/standalone/configuration/" | adddate >> jbosseap.install.log
 cp $EAP_HOME/doc/wildfly/examples/configs/standalone-azure-ha.xml $EAP_HOME/wildfly/standalone/configuration/ | adddate >> jbosseap.install.log 2>&1
+
+echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
+/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli >> jbosseap.install.log 2>&1
+echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytro-se17.cli" | adddate >> jbosseap.install.log
+/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron-se17.cli >> jbosseap.install.log 2>&1
 
 echo "change the jgroups stack from UDP to TCP " | adddate >> jbosseap.install.log
 echo "sed -i 's/stack="udp"/stack="tcp"/g'  $EAP_HOME/wildfly/standalone/configuration/standalone-azure-ha.xml" | adddate >> jbosseap.install.log
