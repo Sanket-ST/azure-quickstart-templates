@@ -113,13 +113,6 @@ else
 fi
 sleep 90
 
-echo "cd $EAP_HOME" | adddate >> jbosseap.install.log
-cd $EAP_HOME | adddate >> jbosseap.install.log
-echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
-bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli | adddate >> jbosseap.install.log
-echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli" | adddate >> jbosseap.install.log
-bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli | adddate >> jbosseap.install.log
-
 # Install JBoss EAP 7.4
 echo "subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms" | adddate >> jbosseap.install.log
 subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms >> jbosseap.install.log 2>&1
@@ -129,6 +122,13 @@ echo "Installing JBoss EAP 7.4 repos" | adddate >> jbosseap.install.log
 echo "yum groupinstall -y jboss-eap7" | adddate >> jbosseap.install.log
 yum groupinstall -y jboss-eap7 >> jbosseap.install.log 2>&1
 flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! JBoss EAP installation Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
+
+echo "cd /opt/rh/eap7/root/usr/share/wildfly" | adddate >> jbosseap.install.log
+cd /opt/rh/eap7/root/usr/share/wildfly | adddate >> jbosseap.install.log
+echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
+bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli | adddate >> jbosseap.install.log
+echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli" | adddate >> jbosseap.install.log
+bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli | adddate >> jbosseap.install.log
 
 echo "sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config" | adddate >> jbosseap.install.log
 sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config | adddate >> jbosseap.install.log 2>&1
