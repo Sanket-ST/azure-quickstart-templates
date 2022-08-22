@@ -83,6 +83,9 @@ else
     sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
 fi
 
+echo "$EAP_HOME/bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
+$EAP_HOME/bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli | adddate >> jbosseap.install.log
+
 # Install JBoss EAP 7.4
 echo "subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms" | adddate >> jbosseap.install.log
 subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms >> jbosseap.install.log 2>&1
