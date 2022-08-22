@@ -113,6 +113,13 @@ else
 fi
 sleep 90
 
+echo "cd $EAP_HOME" | adddate >> jbosseap.install.log
+cd $EAP_HOME | adddate >> jbosseap.install.log
+echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
+bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli | adddate >> jbosseap.install.log
+echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli" | adddate >> jbosseap.install.log
+bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli | adddate >> jbosseap.install.log
+
 # Install JBoss EAP 7.4
 echo "subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms" | adddate >> jbosseap.install.log
 subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms >> jbosseap.install.log 2>&1
