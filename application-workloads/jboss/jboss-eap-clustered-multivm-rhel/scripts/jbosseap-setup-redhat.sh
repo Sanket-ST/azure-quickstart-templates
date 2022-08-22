@@ -84,7 +84,6 @@ echo "Subscribing the system to get access to JBoss EAP repos" | adddate >> jbos
 echo "Install wget, git, unzip, vim" | adddate >> jbosseap.install.log
 echo "sudo yum install wget unzip vim git -y" | adddate >> jbosseap.install.log
 sudo yum install wget unzip vim git -y | adddate >> jbosseap.install.log 2>&1
-echo "Subscribing the system to get access to JBoss EAP 7.4 repos" | adddate >> jbosseap.install.log
 
 # Install JAVA
 if [ $JAVA_VERSION == "JAVA_8" ]
@@ -94,7 +93,7 @@ then
     sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
     echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
-    java -version
+    java -version >> jbosseap.install.log 2>&1
   elif [ $JAVA_VERSION == "JAVA_11" ]
 then
     echo "Installing JAVA 11" | adddate >> jbosseap.install.log
@@ -102,14 +101,14 @@ then
     sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
     echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
-    java -version
+    java -version >> jbosseap.install.log 2>&1
 else
     echo "Installing JAVA 17" | adddate >> jbosseap.install.log
     echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
     echo "Successfully installed JAVA 17" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
-    java -version
+    java -version >> jbosseap.install.log 2>&1
 fi
 sleep 90
 
@@ -124,11 +123,11 @@ yum groupinstall -y jboss-eap7 >> jbosseap.install.log 2>&1
 flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! JBoss EAP installation Failed" | adddate >> jbosseap.install.log; exit $flag;  fi
 
 echo "cd /opt/rh/eap7/root/usr/share/wildfly" | adddate >> jbosseap.install.log
-cd /opt/rh/eap7/root/usr/share/wildfly | adddate >> jbosseap.install.log
+cd /opt/rh/eap7/root/usr/share/wildfly >> jbosseap.install.log
 echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
-bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli | adddate >> jbosseap.install.log
+bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli >> jbosseap.install.log
 echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli" | adddate >> jbosseap.install.log
-bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli | adddate >> jbosseap.install.log
+bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli >> jbosseap.install.log
 
 echo "sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config" | adddate >> jbosseap.install.log
 sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config | adddate >> jbosseap.install.log 2>&1
