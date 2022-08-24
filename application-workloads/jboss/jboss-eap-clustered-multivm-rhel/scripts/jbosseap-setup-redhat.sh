@@ -134,11 +134,6 @@ echo "Copy the standalone-azure-ha.xml from EAP_HOME/doc/wildfly/examples/config
 echo "cp $EAP_HOME/doc/wildfly/examples/configs/standalone-azure-ha.xml $EAP_HOME/wildfly/standalone/configuration/" | adddate >> jbosseap.install.log
 cp $EAP_HOME/doc/wildfly/examples/configs/standalone-azure-ha.xml $EAP_HOME/wildfly/standalone/configuration/ | adddate >> jbosseap.install.log 2>&1
 
-echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
-/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli >> jbosseap.install.log 2>&1
-echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytro-se17.cli" | adddate >> jbosseap.install.log
-/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron-se17.cli >> jbosseap.install.log 2>&1
-
 echo "change the jgroups stack from UDP to TCP " | adddate >> jbosseap.install.log
 echo "sed -i 's/stack="udp"/stack="tcp"/g'  $EAP_HOME/wildfly/standalone/configuration/standalone-azure-ha.xml" | adddate >> jbosseap.install.log
 sed -i 's/stack="udp"/stack="tcp"/g'  $EAP_HOME/wildfly/standalone/configuration/standalone-azure-ha.xml | adddate >> jbosseap.install.log 2>&1
@@ -182,6 +177,18 @@ flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! JBoss EAP management user config
 
 # Seeing a race condition timing error so sleep to delay
 sleep 90
+
+# Enabling Elytron Security Subsystem
+echo "Enabling Elytron Security Subsystem" | adddate >> jbosseap.install.log
+echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
+/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli >> jbosseap.install.log 2>&1
+echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytro-se17.cli" | adddate >> jbosseap.install.log
+/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron-se17.cli >> jbosseap.install.log 2>&1
+
+# Restarting RHEL Server
+echo "Restarting RHEL Server" | adddate >> jbosseap.install.log
+echo "sudo systemctl reboot" | adddate >> jbosseap.install.log
+sudo systemctl reboot >> jbosseap.install.log 2>&1
 
 echo "Red Hat JBoss EAP Cluster Intallation End " | adddate >> jbosseap.install.log
 /bin/date +%H:%M:%S  >> jbosseap.install.log
