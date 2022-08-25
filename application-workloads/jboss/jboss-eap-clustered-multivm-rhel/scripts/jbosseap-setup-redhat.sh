@@ -143,8 +143,9 @@ echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/r
 sleep 90
 
 # Creating Credential Store
-/opt/rh/eap7/root/usr/share/wildfly/bin/elytron-tool.sh credential-store --create --location "/opt/rh/eap7/root/usr/share/wildfly/standalone/
-cred_stores/credential-store.jceks" --password storePassword
+echo "Creating Credential Store" | adddate >> jbosseap.install.log
+echo "/opt/rh/eap7/root/usr/share/wildfly/bin/elytron-tool.sh credential-store --create --location "/opt/rh/eap7/root/usr/share/wildfly/standalone/cred_stores/credential-store.jceks" --password storePassword" | adddate >> jbosseap.install.log
+/opt/rh/eap7/root/usr/share/wildfly/bin/elytron-tool.sh credential-store --create --location "/opt/rh/eap7/root/usr/share/wildfly/standalone/cred_stores/credential-store.jceks" --password storePassword >> jbosseap.install.log
 
 echo "change the jgroups stack from UDP to TCP " | adddate >> jbosseap.install.log
 echo "sed -i 's/stack="udp"/stack="tcp"/g'  $EAP_HOME/wildfly/standalone/configuration/standalone-azure-ha.xml" | adddate >> jbosseap.install.log
