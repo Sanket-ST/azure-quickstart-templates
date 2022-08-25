@@ -81,6 +81,33 @@ then
 fi
 echo "Subscribing the system to get access to JBoss EAP repos" | adddate >> jbosseap.install.log
 
+# Install JAVA
+if [ $JAVA_VERSION == "JAVA_8" ]
+then
+    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
+    echo "java -version" | adddate >> jbosseap.install.log
+    java -version >> jbosseap.install.log 2>&1
+  elif [ $JAVA_VERSION == "JAVA_11" ]
+then
+    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
+    echo "java -version" | adddate >> jbosseap.install.log
+    java -version >> jbosseap.install.log 2>&1
+else
+    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
+    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
+    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 17" | adddate >> jbosseap.install.log
+    echo "java -version" | adddate >> jbosseap.install.log
+    java -version >> jbosseap.install.log 2>&1
+fi
+sleep 90
+
 echo "Install wget, git, unzip, vim" | adddate >> jbosseap.install.log
 echo "sudo yum install wget unzip vim git -y" | adddate >> jbosseap.install.log
 sudo yum install wget unzip vim git -y | adddate >> jbosseap.install.log 2>&1
@@ -107,6 +134,18 @@ echo "Copy the standalone-azure-ha.xml from EAP_HOME/doc/wildfly/examples/config
 echo "cp $EAP_HOME/doc/wildfly/examples/configs/standalone-azure-ha.xml $EAP_HOME/wildfly/standalone/configuration/" | adddate >> jbosseap.install.log
 cp $EAP_HOME/doc/wildfly/examples/configs/standalone-azure-ha.xml $EAP_HOME/wildfly/standalone/configuration/ | adddate >> jbosseap.install.log 2>&1
 
+# Enabling Elytron Security Subsystem
+echo "Enabling Elytron Security Subsystem" | adddate >> jbosseap.install.log
+echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
+/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli >> jbosseap.install.log 2>&1
+echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytro-se17.cli" | adddate >> jbosseap.install.log
+/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron-se17.cli >> jbosseap.install.log 2>&1
+sleep 90
+
+# Creating Credential Store
+/opt/rh/eap7/root/usr/share/wildfly/bin/elytron-tool.sh credential-store --create --location "/opt/rh/eap7/root/usr/share/wildfly/standalone/
+cred_stores/credential-store.jceks" --password storePassword
+
 echo "change the jgroups stack from UDP to TCP " | adddate >> jbosseap.install.log
 echo "sed -i 's/stack="udp"/stack="tcp"/g'  $EAP_HOME/wildfly/standalone/configuration/standalone-azure-ha.xml" | adddate >> jbosseap.install.log
 sed -i 's/stack="udp"/stack="tcp"/g'  $EAP_HOME/wildfly/standalone/configuration/standalone-azure-ha.xml | adddate >> jbosseap.install.log 2>&1
@@ -122,33 +161,6 @@ sed -i 's/jboss.bind.address.private:127.0.0.1/jboss.bind.address.private:0.0.0.
 echo "Start JBoss server" | adddate >> jbosseap.install.log
 echo "$EAP_HOME/wildfly/bin/standalone.sh -bprivate $IP_ADDR -b $IP_ADDR -bmanagement $IP_ADDR --server-config=standalone-azure-ha.xml -Djboss.jgroups.azure_ping.storage_account_name=$STORAGE_ACCOUNT_NAME -Djboss.jgroups.azure_ping.storage_access_key=STORAGE_ACCESS_KEY -Djboss.jgroups.azure_ping.container=$CONTAINER_NAME -Djava.net.preferIPv4Stack=true &" | adddate >> jbosseap.install.log
 $EAP_HOME/wildfly/bin/standalone.sh -bprivate $IP_ADDR -b $IP_ADDR -bmanagement $IP_ADDR --server-config=standalone-azure-ha.xml -Djboss.jgroups.azure_ping.storage_account_name=$STORAGE_ACCOUNT_NAME -Djboss.jgroups.azure_ping.storage_access_key=$STORAGE_ACCESS_KEY -Djboss.jgroups.azure_ping.container=$CONTAINER_NAME -Djava.net.preferIPv4Stack=true | adddate >> jbosseap.install.log 2>&1 &
-sleep 90
-
-# Install JAVA
-if [ $JAVA_VERSION == "JAVA_8" ]
-then
-    echo "Installing JAVA 8" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
-    echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
-    echo "java -version" | adddate >> jbosseap.install.log
-    java -version >> jbosseap.install.log 2>&1
-  elif [ $JAVA_VERSION == "JAVA_11" ]
-then
-    echo "Installing JAVA 11" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
-    echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
-    echo "java -version" | adddate >> jbosseap.install.log
-    java -version >> jbosseap.install.log 2>&1
-else
-    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
-    echo "Successfully installed JAVA 17" | adddate >> jbosseap.install.log
-    echo "java -version" | adddate >> jbosseap.install.log
-    java -version >> jbosseap.install.log 2>&1
-fi
 sleep 90
 
 echo "export EAP_HOME="/opt/rh/eap7/root/usr/share"" >> /bin/jbossservice.sh
@@ -177,20 +189,6 @@ flag=$?; if [ $flag != 0 ] ; then echo  "ERROR! JBoss EAP management user config
 
 # Seeing a race condition timing error so sleep to delay
 sleep 90
-
-# Enabling Elytron Security Subsystem
-echo "Enabling Elytron Security Subsystem" | adddate >> jbosseap.install.log
-echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
-/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli >> jbosseap.install.log 2>&1
-echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytro-se17.cli" | adddate >> jbosseap.install.log
-/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron-se17.cli >> jbosseap.install.log 2>&1
-reload >> jbosseap.install.log 2>&1
-sleep 90
-
-# Restarting RHEL Server
-echo "Restarting RHEL Server" | adddate >> jbosseap.install.log
-echo "sudo systemctl reboot" | adddate >> jbosseap.install.log
-sudo systemctl reboot >> jbosseap.install.log 2>&1
 
 echo "Red Hat JBoss EAP Cluster Intallation End " | adddate >> jbosseap.install.log
 /bin/date +%H:%M:%S  >> jbosseap.install.log
