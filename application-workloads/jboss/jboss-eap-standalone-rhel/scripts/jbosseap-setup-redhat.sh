@@ -72,23 +72,17 @@ then
     echo "Installing JAVA 8" | adddate >> jbosseap.install.log
     echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
-  elif [ $JAVA_VERSION == "JAVA_11" ]
-then
+    echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
+    echo "java -version" | adddate >> jbosseap.install.log
+    java -version >> jbosseap.install.log 2>&1
+else
     echo "Installing JAVA 11" | adddate >> jbosseap.install.log
     echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
-else
-    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
+    echo "java -version" | adddate >> jbosseap.install.log
+    java -version >> jbosseap.install.log 2>&1
 fi
-
-echo "cd $EAP_HOME" | adddate >> jbosseap.install.log
-cd $EAP_HOME | adddate >> jbosseap.install.log
-echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
-bin/jboss-cli.sh --file=docs/examples/enable-elytron.cli | adddate >> jbosseap.install.log
-echo "bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli" | adddate >> jbosseap.install.log
-bin/jboss-cli.sh --file=docs/examples/enable-elytron-se17.cli | adddate >> jbosseap.install.log
 
 # Install JBoss EAP 7.4
 echo "subscription-manager repos --enable=jb-eap-7.4-for-rhel-8-x86_64-rpms" | adddate >> jbosseap.install.log
