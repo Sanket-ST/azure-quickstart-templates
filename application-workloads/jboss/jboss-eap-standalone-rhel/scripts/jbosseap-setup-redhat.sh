@@ -44,14 +44,7 @@ IP_ADDR=$(hostname -I)
 JAVA_VERSION=${15}
 
 echo "JBoss EAP admin user : " ${JBOSS_EAP_USER} | adddate >> jbosseap.install.log
-echo "JBoss EAP admin password : " ${JBOSS_EAP_PASSWORD} | adddate >> jbosseap.install.log
-echo "RHSM username : " ${RHSM_USER} | adddate >> jbosseap.install.log
-echo "RHSM password : " ${RHSM_PASSWORD} | adddate >> jbosseap.install.log
-echo "RHEL OS License type : " ${RHEL_OS_LICENSE_TYPE} | adddate >> jbosseap.install.log
-echo "RHSM pool Id : " ${RHSM_POOL} | adddate >> jbosseap.install.log
 echo "JAVA VERSION : " ${JAVA_VERSION} | adddate >> jbosseap.install.log
-
-echo "JBoss EAP admin user : " ${JBOSS_EAP_USER} | adddate >> jbosseap.install.log
 echo "Initial JBoss EAP setup" | adddate >> jbosseap.install.log
 echo "subscription-manager register --username RHSM_USER --password RHSM_PASSWORD" | adddate >> jbosseap.install.log
 subscription-manager register --username $RHSM_USER --password $RHSM_PASSWORD >> jbosseap.install.log 2>&1
@@ -71,14 +64,14 @@ if [ $JAVA_VERSION == "JAVA_8" ]
 then
     echo "Installing JAVA 8" | adddate >> jbosseap.install.log
     echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-1.8.0-openjdk -y | adddate >> jbosseap.install.log
+    sudo yum install java-1.8.0-openjdk -y >> jbosseap.install.log
     echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
     java -version >> jbosseap.install.log 2>&1
 else
     echo "Installing JAVA 11" | adddate >> jbosseap.install.log
     echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
+    sudo yum install java-11-openjdk -y >> jbosseap.install.log
     echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
     java -version >> jbosseap.install.log 2>&1
