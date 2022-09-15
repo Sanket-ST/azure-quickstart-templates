@@ -90,23 +90,14 @@ then
     echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
     java -version >> jbosseap.install.log 2>&1
-  elif [ $JAVA_VERSION == "JAVA_11" ]
-then
+else
     echo "Installing JAVA 11" | adddate >> jbosseap.install.log
     echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-11-openjdk -y | adddate >> jbosseap.install.log
     echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
     java -version >> jbosseap.install.log 2>&1
-else
-    echo "Installing JAVA 17" | adddate >> jbosseap.install.log
-    echo "sudo yum install java-17-openjdk -y" | adddate >> jbosseap.install.log
-    sudo yum install java-17-openjdk -y | adddate >> jbosseap.install.log
-    echo "Successfully installed JAVA 17" | adddate >> jbosseap.install.log
-    echo "java -version" | adddate >> jbosseap.install.log
-    java -version >> jbosseap.install.log 2>&1
 fi
-sleep 90
 
 echo "Install wget, git, unzip, vim" | adddate >> jbosseap.install.log
 echo "sudo yum install wget unzip vim git -y" | adddate >> jbosseap.install.log
@@ -133,19 +124,6 @@ systemctl restart sshd | adddate >> jbosseap.install.log 2>&1
 echo "Copy the standalone-azure-ha.xml from EAP_HOME/doc/wildfly/examples/configs folder to EAP_HOME/wildfly/standalone/configuration folder" | adddate >> jbosseap.install.log
 echo "cp $EAP_HOME/doc/wildfly/examples/configs/standalone-azure-ha.xml $EAP_HOME/wildfly/standalone/configuration/" | adddate >> jbosseap.install.log
 cp $EAP_HOME/doc/wildfly/examples/configs/standalone-azure-ha.xml $EAP_HOME/wildfly/standalone/configuration/ | adddate >> jbosseap.install.log 2>&1
-
-# Enabling Elytron Security Subsystem
-echo "Enabling Elytron Security Subsystem" | adddate >> jbosseap.install.log
-echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli" | adddate >> jbosseap.install.log
-/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron.cli >> jbosseap.install.log 2>&1
-echo "/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytro-se17.cli" | adddate >> jbosseap.install.log
-/opt/rh/eap7/root/usr/share/wildfly/bin/jboss-cli.sh --file=/opt/rh/eap7/root/usr/share/wildfly/docs/examples/enable-elytron-se17.cli >> jbosseap.install.log 2>&1
-sleep 90
-
-# Creating Credential Store
-echo "Creating Credential Store" | adddate >> jbosseap.install.log
-echo "/opt/rh/eap7/root/usr/share/wildfly/bin/elytron-tool.sh credential-store --create --location "/opt/rh/eap7/root/usr/share/wildfly/standalone/cred_stores/credential-store.jceks" --password storePassword" | adddate >> jbosseap.install.log
-/opt/rh/eap7/root/usr/share/wildfly/bin/elytron-tool.sh credential-store --create --location "/opt/rh/eap7/root/usr/share/wildfly/standalone/cred_stores/credential-store.jceks" --password storePassword >> jbosseap.install.log
 
 echo "change the jgroups stack from UDP to TCP " | adddate >> jbosseap.install.log
 echo "sed -i 's/stack="udp"/stack="tcp"/g'  $EAP_HOME/wildfly/standalone/configuration/standalone-azure-ha.xml" | adddate >> jbosseap.install.log
