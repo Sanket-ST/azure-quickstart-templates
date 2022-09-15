@@ -65,14 +65,14 @@ then
     echo "Installing JAVA 8" | adddate >> jbosseap.install.log
     echo "sudo yum install java-1.8.0-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-1.8.0-openjdk -y >> jbosseap.install.log
-    echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
     java -version >> jbosseap.install.log 2>&1
 else
     echo "Installing JAVA 11" | adddate >> jbosseap.install.log
     echo "sudo yum install java-11-openjdk -y" | adddate >> jbosseap.install.log
     sudo yum install java-11-openjdk -y >> jbosseap.install.log
-    echo "Successfully installed JAVA 8" | adddate >> jbosseap.install.log
+    echo "Successfully installed JAVA 11" | adddate >> jbosseap.install.log
     echo "java -version" | adddate >> jbosseap.install.log
     java -version >> jbosseap.install.log 2>&1
 fi
